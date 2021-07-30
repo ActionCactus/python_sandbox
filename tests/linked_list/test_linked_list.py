@@ -82,3 +82,18 @@ def test_inserting_into_back():
     ll.insert(Node(1), 1)
     assert len(ll) == 2
     assert ll.tail.value == 1
+
+def test_prepending_empty_ll():
+    ll = LinkedList()
+    ll.prepend(Node(0))
+    assert len(ll) == 1
+    assert ll.head.value == 0
+
+def test_prepending_ll():
+    ll = LinkedList(Node(0))
+    ll.append(Node(1))
+    ll.prepend(Node(2))
+
+    assert len(ll) == 3
+    assert ll.head.value == 2
+    assert ll.tail.value == 1

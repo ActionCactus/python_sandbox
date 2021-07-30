@@ -50,7 +50,8 @@ class LinkedList:
             )
 
     def prepend(self, node: Node):
-        pass
+        self._update_nodes(node, self.head, None)
+        self.head = node
 
     def delete(self, position: int):
         pass
