@@ -163,3 +163,43 @@ def test_inserting_dlnodes_to_middle_of_ll_updates_last_values():
     assert ll.head.value == 0
     assert ll.head.next.value == 2
     assert ll.head.next.next.value == 1
+
+
+seeded_ll = None
+
+
+def seed_base_ll():
+    global seeded_ll
+    seeded_ll = LinkedList()
+    for _i in range(0, 100):
+        seeded_ll.append(Node(None))
+
+
+def prepend_nodes():
+    global seeded_ll
+    for _i in range(0, 10):
+        seeded_ll.prepend(Node(None))
+
+
+def append_nodes():
+    global seeded_ll
+    for _i in range(0, 10):
+        seeded_ll.append(Node(None))
+
+
+def insert_nodes():
+    global seeded_ll
+    for i in range(50, 60):
+        seeded_ll.insert(Node(None), i)
+
+
+def test_benchmarking_prepend(benchmark):
+    benchmark.pedantic(prepend_nodes, setup=seed_base_ll)
+
+
+def test_benchmarking_append(benchmark):
+    benchmark.pedantic(append_nodes, setup=seed_base_ll)
+
+
+def test_benchmarking_middle_insertion(benchmark):
+    benchmark.pedantic(insert_nodes, setup=seed_base_ll)
