@@ -22,27 +22,29 @@ class LinkedList:
             self.tail = node
         else:
             self._update_nodes(node, None, self.tail)
+            self.tail = node
 
     def insert(self, node: Node, position: int):
         focus = self.head
 
-        if not focus and position == 0:
-            self.append(node)
+        if position == 0:
+            self._update_nodes(node, focus, None)
+            self.head = node
             return
 
         idx = 0
         while focus:
-            if idx == position:
-                self._update_nodes(node, focus.next, focus)
-                if idx == 0:
-                    self.head = node
-                elif focus.next is None:
+            if position == idx + 1:
+                # Doing this here instead of the next iteration because singly linked lists won't have
+                # a ref to 'last' to update
+                if not focus.next:
                     self.tail = node
+                self._update_nodes(node, focus.next, focus)
                 break
             idx += 1
             focus = focus.next
 
-        if idx < position:
+        if (idx + 1) < position:
             raise ValueError(
                 f"Can't add node to position {position} - list is only length {idx}!"
             )
