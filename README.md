@@ -8,3 +8,8 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt -e .
 ```
+
+# Running Tests
+```sh
+pytest --cov=src --cov-report=html tests/
+```
