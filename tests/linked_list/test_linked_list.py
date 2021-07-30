@@ -83,11 +83,13 @@ def test_inserting_into_back():
     assert len(ll) == 2
     assert ll.tail.value == 1
 
+
 def test_prepending_empty_ll():
     ll = LinkedList()
     ll.prepend(Node(0))
     assert len(ll) == 1
     assert ll.head.value == 0
+
 
 def test_prepending_ll():
     ll = LinkedList(Node(0))
@@ -97,3 +99,67 @@ def test_prepending_ll():
     assert len(ll) == 3
     assert ll.head.value == 2
     assert ll.tail.value == 1
+
+
+def test_cant_delete_from_empty_ll():
+    with pytest.raises(ValueError):
+        LinkedList().delete(0)
+
+
+def test_cant_delete_position_out_of_range_which_isnt_head():
+    ll = LinkedList(Node(0))
+    ll.append(Node(1))
+    with pytest.raises(ValueError):
+        ll.delete(50)
+
+
+def test_deleting_head():
+    ll = LinkedList(Node(0))
+    ll.delete(0)
+
+    assert len(ll) == 0
+    assert ll.head == None
+    assert ll.tail == None
+
+
+def test_deleting_head_of_elongated_ll():
+    ll = LinkedList(Node(0))
+    ll.append(Node(1))
+    ll.delete(0)
+
+    assert len(ll) == 1
+    assert ll.head.value == 1
+    assert ll.tail.value == 1
+
+
+def test_deleting_tail():
+    ll = LinkedList(Node(0))
+    ll.append(Node(1))
+    ll.delete(1)
+
+    assert len(ll) == 1
+    assert ll.head.value == 0
+    assert ll.tail.value == 0
+
+
+def test_deleting_item_in_middle():
+    ll = LinkedList(Node(0))
+    ll.append(Node(1))
+    ll.append(Node(2))
+
+    ll.delete(1)
+
+    assert len(ll) == 2
+    assert ll.head.value == 0
+    assert ll.tail.value == 2
+
+
+def test_inserting_dlnodes_to_middle_of_ll_updates_last_values():
+    ll = LinkedList(DLNode(0))
+    ll.append(DLNode(1))
+    ll.insert(DLNode(2), 1)
+
+    assert len(ll) == 3
+    assert ll.head.value == 0
+    assert ll.head.next.value == 2
+    assert ll.head.next.next.value == 1

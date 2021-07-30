@@ -54,10 +54,44 @@ class LinkedList:
         self.head = node
 
     def delete(self, position: int):
-        pass
+        focus = self.head
 
-    def pop(self):
-        pass
+        idx = 0
+        deleted = False
+        last = None
+        while focus and not deleted:
+            if position == idx:
+                # Delete focus
+                deleted = True
+                if not last:
+                    # Delete the head
+                    if focus.next:
+                        self._update_nodes(focus.next, focus.next.next, None)
+                        self.head = focus.next
+                        break
+                    else:
+                        self.head = None
+                        self.tail = None
+                        break
+                else:
+                    if focus.next:
+                        self._update_nodes(focus.next, focus.next.next, last)
+                        break
+                    else:
+                        self._update_nodes(
+                            last,
+                            None,
+                            last.last if isinstance(last, DLNode) else None
+                        )
+                        self.tail = last
+                        break
+
+            idx += 1
+            last = focus
+            focus = focus.next
+
+        if not deleted:
+            raise ValueError(f"No node exists at position {position}!")
 
     def __len__(self):
         length = 0
