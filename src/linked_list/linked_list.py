@@ -93,6 +93,28 @@ class LinkedList:
         if not deleted:
             raise ValueError(f"No node exists at position {position}!")
 
+    def remove_duplicates(self):
+        # assume all values hashable for now.  Check isinstance(x, collections.Hashable) if needed
+        cache = {}
+        focus = self.head
+        last = None
+        while focus:
+            if focus.value not in cache:
+                # No duplicate found - remember this value
+                cache[focus.value] = 0
+                last = focus
+                focus = focus.next
+            else:
+                if not focus.next:
+                    # trim the tail
+                    last.next = None
+                    self.tail = last
+                    break
+                focus = focus.next
+                self._update_nodes(focus, focus.next, last)
+                last = focus
+                focus = focus.next
+
     def __len__(self):
         length = 0
 
@@ -104,6 +126,9 @@ class LinkedList:
         return length
 
     def _update_nodes(self, node: Node, next: Node, last: Node):
+        if not node:
+            return
+
         if not self.assigned_type:
             self.assigned_type = type(node)
 

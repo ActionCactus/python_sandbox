@@ -165,6 +165,41 @@ def test_inserting_dlnodes_to_middle_of_ll_updates_last_values():
     assert ll.head.next.next.value == 1
 
 
+def test_removing_duplicates_on_empty_ll_results_in_no_errors():
+    ll = LinkedList()
+    ll.remove_duplicates()
+
+
+def test_removing_duplicates_when_there_are_none_results_in_no_changes():
+    ll = LinkedList(Node(1))
+    ll.append(Node(2))
+    ll.append(Node(3))
+    ll.remove_duplicates()
+    assert len(ll) == 3
+    assert ll.head.value == 1
+    assert ll.tail.value == 3
+
+
+def test_removing_duplicates_with_hashable_values():
+    ll = LinkedList(Node(1))
+    ll.append(Node(2))
+    ll.append(Node(1))
+    assert len(ll) == 3
+    ll.remove_duplicates()
+    assert len(ll) == 2
+    assert ll.tail.value == 2
+
+
+def test_removing_duplicate_hashable_values_with_dupe_in_middle_of_ll():
+    ll = LinkedList(Node(1))
+    ll.append(Node(1))
+    ll.append(Node(2))
+    ll.remove_duplicates()
+    assert len(ll) == 2
+    assert ll.head.value == 1
+    assert ll.tail.value == 2
+
+
 seeded_ll = None
 
 
