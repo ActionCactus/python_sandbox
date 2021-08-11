@@ -1,4 +1,4 @@
-from src.linked_list.linked_list import Node, DLNode, LinkedList
+from src.linked_list.linked_list import Node, DLNode, LinkedList, is_palindrome
 import pytest
 
 
@@ -200,6 +200,26 @@ def test_removing_duplicate_hashable_values_with_dupe_in_middle_of_ll():
     assert ll.tail.value == 2
 
 
+def test_is_palindrome():
+    build_palindrome(Node)
+    global seeded_ll
+    assert is_palindrome(seeded_ll) is True
+
+
+def test_is_not_palindrome():
+    ll = LinkedList(Node(1))
+    ll.append(Node(2))
+    ll.append(Node(3))
+    ll.append(Node(1))
+    assert is_palindrome(ll) is False
+
+
+def test_odd_length_palindrome():
+    build_palindrome(Node, True)
+    global seeded_ll
+    assert is_palindrome(seeded_ll) is True
+
+
 seeded_ll = None
 
 
@@ -228,13 +248,74 @@ def insert_nodes():
         seeded_ll.insert(Node(None), i)
 
 
+def check_if_palindrome():
+    global seeded_ll
+    is_palindrome(seeded_ll)
+
+
+def build_palindrome(node_type, odd=False):
+    global seeded_ll
+    seeded_ll = LinkedList()
+
+    insertion_range = range(0, 100)
+    for i in insertion_range:
+        seeded_ll.append(node_type(i))
+
+    if odd:
+        seeded_ll.append(node_type(i + 1))
+
+    for i in reversed(insertion_range):
+        seeded_ll.append(node_type(i))
+
+
+def build_dl_palindrome():
+    build_palindrome(DLNode)
+
+
+def build_sl_palindrome():
+    build_palindrome(Node)
+
+
 def test_benchmarking_prepend(benchmark):
-    benchmark.pedantic(prepend_nodes, setup=seed_base_ll)
+    benchmark.pedantic(
+        prepend_nodes,
+        setup=seed_base_ll,
+        iterations=1,
+        rounds=100
+    )
 
 
 def test_benchmarking_append(benchmark):
-    benchmark.pedantic(append_nodes, setup=seed_base_ll)
+    benchmark.pedantic(
+        append_nodes,
+        setup=seed_base_ll,
+        iterations=1,
+        rounds=100
+    )
 
 
 def test_benchmarking_middle_insertion(benchmark):
-    benchmark.pedantic(insert_nodes, setup=seed_base_ll)
+    benchmark.pedantic(
+        insert_nodes,
+        setup=seed_base_ll,
+        iterations=1,
+        rounds=100
+    )
+
+
+def test_benchmarking_doubly_linked_list_palindrome_detection(benchmark):
+    benchmark.pedantic(
+        check_if_palindrome,
+        setup=build_dl_palindrome,
+        iterations=1,
+        rounds=100
+    )
+
+
+def test_benchmarking_singly_linked_list_palindrome_detection(benchmark):
+    benchmark.pedantic(
+        check_if_palindrome,
+        setup=build_sl_palindrome,
+        iterations=1,
+        rounds=100
+    )

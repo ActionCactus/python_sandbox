@@ -143,3 +143,33 @@ class LinkedList:
 
         if last:
             last.next = node
+
+
+def is_palindrome(ll: LinkedList) -> bool:
+    if ll.assigned_type == DLNode:
+        # for doubly linked lists we can converge and therefore do this in one iteration
+        left_ref = ll.head
+        right_ref = ll.tail
+        while left_ref.next:
+            if left_ref.value != right_ref.value:
+                return False
+
+            left_ref = left_ref.next
+            right_ref = right_ref.last
+        return True
+    else:
+        vals = []
+        focus = ll.head
+        while focus:
+            vals.append(focus.value)
+            focus = focus.next
+
+        idx = 0
+        while idx < (len(vals) / 2):
+            x = vals[-idx]
+            y = vals[idx]
+            if vals[idx] != vals[-(idx + 1)]:
+                return False
+            idx += 1
+
+        return True
