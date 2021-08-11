@@ -215,7 +215,7 @@ def test_is_not_palindrome():
 
 
 def test_odd_length_palindrome():
-    build_palindrome(Node, True)
+    build_palindrome(DLNode, True)
     global seeded_ll
     assert is_palindrome(seeded_ll) is True
 
